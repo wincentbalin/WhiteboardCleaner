@@ -9,7 +9,7 @@ find_package(Boost COMPONENTS program_options filesystem)
 include_directories(${Boost_INCLUDE_DIR})
 
 add_definitions( -DMAGICKCORE_QUANTUM_DEPTH=16 )
-add_definitions( -DMAGICKCORE_HDRI_ENABLE=0 )
+add_definitions( -DMAGICKCORE_HDRI_ENABLE=1 )
 find_package(ImageMagick COMPONENTS Magick++)
 include_directories(${ImageMagick_INCLUDE_DIRS})
 
