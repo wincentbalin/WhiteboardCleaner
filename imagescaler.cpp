@@ -8,7 +8,6 @@ using namespace Magick;
 namespace po = boost::program_options;
 namespace fs = boost::filesystem;
 
-
 bool last_file_is_directory(const vector<string> &fns) {
     return fs::is_directory(fs::path(fns.back()));
 }
