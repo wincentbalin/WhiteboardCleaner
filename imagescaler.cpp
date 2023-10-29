@@ -1,8 +1,10 @@
 #include <iostream>
 #include <boost/program_options.hpp>
 #include <boost/filesystem.hpp>
+#include <Magick++.h>
 
 using namespace std;
+using namespace Magick;
 namespace po = boost::program_options;
 namespace fs = boost::filesystem;
 
@@ -11,8 +13,20 @@ bool last_file_is_directory(const vector<string> &fns) {
     return fs::is_directory(fs::path(fns.back()));
 }
 
+void scale_image_file(const fs::path &src, const fs::path &dst, int width, int height) {
+    Image image;
+    image.read(src.string());
+    Geometry size = image.size();
+    double factor = width ? (double) width / (double) size.width() :
+                            (double) height / (double) size.height();
+    image.zoom(Geometry(size.width() * factor, size.height() * factor));
+    image.write(dst.string());
+}
+
 int main(int argc, char **argv)
 {
+    InitializeMagick(*argv);
+
     po::options_description desc("Allowed options");
     desc.add_options()
             ("help", "Print help message")
@@ -69,11 +83,11 @@ int main(int argc, char **argv)
         fs::path out_dir(input_files.back());
         for (auto &fn: regular_files) {
             fs::path tfn = out_dir / fs::path(fn).filename();
-            cout << fn << " " << tfn << endl;
+            scale_image_file(fs::path(fn), tfn, width, height);
         }
     } else {
         for (auto &fn: regular_files) {
-            cout << fn << " " << fn << endl;
+            scale_image_file(fs::path(fn), fs::path(fn), width, height);
         }
     }
 
