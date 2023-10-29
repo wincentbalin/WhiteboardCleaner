@@ -30,8 +30,8 @@ int main(int argc, char **argv)
     po::options_description desc("Allowed options");
     desc.add_options()
             ("help", "Print help message")
-            ("width,w", po::value<int>(), "Width to scale the image to")
-            ("height,h", po::value<int>(),"Height to scale the image to")
+            ("width,w", po::value<int>(), "Width to scale the image(s) to")
+            ("height,h", po::value<int>(),"Height to scale the image(s) to")
             ("input-file", po::value< vector<string> >(), "Image file or maybe (if last) output directory")
     ;
 
