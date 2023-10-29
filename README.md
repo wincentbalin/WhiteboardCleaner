@@ -1,6 +1,6 @@
 # ImageScaler
 
-This is a small utility that proprtionally scales images.
+This is a small utility that proportionally scales images.
 
 # Usage
 
