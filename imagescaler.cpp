@@ -15,9 +15,9 @@ int main(int argc, char **argv)
 {
     po::options_description desc("Allowed options");
     desc.add_options()
-            ("help,h", "Print help message")
-            ("width", po::value<int>(), "Width to scale the image to")
-            ("height", po::value<int>(),"Height to scale the image to")
+            ("help", "Print help message")
+            ("width,w", po::value<int>(), "Width to scale the image to")
+            ("height,h", po::value<int>(),"Height to scale the image to")
             ("input-file", po::value< vector<string> >(), "Image file or maybe (if last) output directory")
     ;
 
@@ -27,12 +27,32 @@ int main(int argc, char **argv)
     po::variables_map vm;
     po::store(po::command_line_parser(argc, argv).
               options(desc).positional(p).run(), vm);
+    if (strstr(argv[0], " -")) {
+#ifdef _WIN32
+        po::store(po::command_line_parser(po::split_winmain(argv[0])).options(desc).run(), vm);
+#else
+        po::store(po::command_line_parser(po::split_unix(argv[0], " ")).options(desc).run(), vm);
+#endif
+    }
     po::notify(vm);
 
     if (vm.count("help")) {
         cout << "Usage: imagescaler option(s) file(s)" << endl;
         cout << desc;
         return 0;
+    }
+
+    int width = 0;
+    int height = 0;
+    if (vm.count("width") && !vm.count("height")) {
+        width = vm["width"].as<int>();
+        cout << "width " << width << endl;
+    } else if (!vm.count("width") && vm.count("height")) {
+        height = vm["height"].as<int>();
+        cout << "height " << height << endl;
+    } else {
+        cerr << "Please specify either width or height" << endl;
+        return 1;
     }
 
     if (!vm.count("input-file")) {
