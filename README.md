@@ -31,8 +31,8 @@ imagescaler -w 1024 image1.png image2.jpg out
 
 ## Set default option
 
-Rename `imagescaler` to `imagescaler -w 1024` to scale image files
-to width of 1024 px. You can execute scaling by
+Rename `imagescaler` to `imagescaler -w 1024` (in Windows to `imagescaler -w 1024 `
+with space character in the end) to scale image files to width of 1024 px. You can execute scaling by
 
 ```
 imagescaler\ -w\ 1024 image1.png
