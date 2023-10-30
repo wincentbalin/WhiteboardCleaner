@@ -95,14 +95,26 @@ int main(int argc, char **argv)
             if (vm.count("verbose")) {
                 cout << "Processing " << fn << " to " << tfn << endl;
             }
-            scale_image_file(fs::path(fn), tfn, width, height);
+            try {
+                scale_image_file(fs::path(fn), tfn, width, height);
+            } catch (Magick::ErrorFileOpen &error) {
+                cerr << "Error opening file:" << error.what() << endl;
+            } catch (Magick::Exception &error) {
+                cerr << "Error: " << error.what() << endl;
+            }
         }
     } else {
         for (auto &fn: regular_files) {
             if (vm.count("verbose")) {
                 cout << "Processing " << fn << endl;
             }
-            scale_image_file(fs::path(fn), fs::path(fn), width, height);
+            try {
+                scale_image_file(fs::path(fn), fs::path(fn), width, height);
+            } catch (Magick::ErrorFileOpen &error) {
+                cerr << "Error opening file:" << error.what() << endl;
+            } catch (Magick::Exception &error) {
+                cerr << "Error: " << error.what() << endl;
+            }
         }
     }
 
