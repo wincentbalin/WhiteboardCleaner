@@ -88,34 +88,28 @@ int main(int argc, char **argv)
     copy_if(input_files.begin(), input_files.end(), back_inserter(regular_files),
             [](string fn) { return fs::is_regular_file(fs::path(fn)); });
 
-    if (input_files.size() > 1 && last_file_is_directory(input_files)) {
-        fs::path out_dir(input_files.back());
-        for (auto &fn: regular_files) {
-            fs::path tfn = out_dir / fs::path(fn).filename();
-            if (vm.count("verbose")) {
-                cout << "Processing " << fn << " to " << tfn << endl;
-            }
-            try {
+    try {
+        if (input_files.size() > 1 && last_file_is_directory(input_files)) {
+            fs::path out_dir(input_files.back());
+            for (auto &fn: regular_files) {
+                fs::path tfn = out_dir / fs::path(fn).filename();
+                if (vm.count("verbose")) {
+                    cout << "Processing " << fn << " to " << tfn << endl;
+                }
                 scale_image_file(fs::path(fn), tfn, width, height);
-            } catch (Magick::ErrorFileOpen &error) {
-                cerr << "Error opening file:" << error.what() << endl;
-            } catch (Magick::Exception &error) {
-                cerr << "Error: " << error.what() << endl;
             }
-        }
-    } else {
-        for (auto &fn: regular_files) {
-            if (vm.count("verbose")) {
-                cout << "Processing " << fn << endl;
-            }
-            try {
+        } else {
+            for (auto &fn: regular_files) {
+                if (vm.count("verbose")) {
+                    cout << "Processing " << fn << endl;
+                }
                 scale_image_file(fs::path(fn), fs::path(fn), width, height);
-            } catch (Magick::ErrorFileOpen &error) {
-                cerr << "Error opening file:" << error.what() << endl;
-            } catch (Magick::Exception &error) {
-                cerr << "Error: " << error.what() << endl;
             }
         }
+    } catch (Magick::ErrorFileOpen &error) {
+        cerr << "Error opening file:" << error.what() << endl;
+    } catch (Magick::Exception &error) {
+        cerr << "Error: " << error.what() << endl;
     }
 
     return 0;
