@@ -29,6 +29,7 @@ int main(int argc, char **argv)
     po::options_description desc("Allowed options");
     desc.add_options()
             ("help", "Print help message")
+            ("verbose,v", "Be verbose")
             ("width,w", po::value<int>(), "Width to scale the image(s) to")
             ("height,h", po::value<int>(),"Height to scale the image(s) to")
             ("input-file", po::value< vector<string> >(), "Image file or maybe (if last) output directory")
@@ -64,10 +65,14 @@ int main(int argc, char **argv)
     int height = 0;
     if (vm.count("width") && !vm.count("height")) {
         width = vm["width"].as<int>();
-        cout << "width " << width << endl;
+        if (vm.count("verbose")) {
+            cout << "Requested width: " << width << endl;
+        }
     } else if (!vm.count("width") && vm.count("height")) {
         height = vm["height"].as<int>();
-        cout << "height " << height << endl;
+        if (vm.count("verbose")) {
+            cout << "Requested height: " << height << endl;
+        }
     } else {
         cerr << "Please specify either width or height" << endl;
         return 1;
@@ -87,10 +92,16 @@ int main(int argc, char **argv)
         fs::path out_dir(input_files.back());
         for (auto &fn: regular_files) {
             fs::path tfn = out_dir / fs::path(fn).filename();
+            if (vm.count("verbose")) {
+                cout << "Processing " << fn << " to " << tfn << endl;
+            }
             scale_image_file(fs::path(fn), tfn, width, height);
         }
     } else {
         for (auto &fn: regular_files) {
+            if (vm.count("verbose")) {
+                cout << "Processing " << fn << endl;
+            }
             scale_image_file(fs::path(fn), fs::path(fn), width, height);
         }
     }
