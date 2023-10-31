@@ -31,8 +31,6 @@ int main(int argc, char **argv)
     po::options_description desc("Allowed options");
     desc.add_options()
             ("help", "Print help message")
-            ("width,w", po::value<int>(), "Width to scale the image(s) to")
-            ("height,h", po::value<int>(),"Height to scale the image(s) to")
             ("input-file", po::value< vector<string> >(), "Image file or maybe (if last) output directory")
     ;
 
@@ -60,19 +58,6 @@ int main(int argc, char **argv)
         cout << "Usage: whiteboardcleaner option(s) file(s)" << endl;
         cout << desc;
         return 0;
-    }
-
-    int width = 0;
-    int height = 0;
-    if (vm.count("width") && !vm.count("height")) {
-        width = vm["width"].as<int>();
-        cout << "Requested width: " << width << endl;
-    } else if (!vm.count("width") && vm.count("height")) {
-        height = vm["height"].as<int>();
-        cout << "Requested height: " << height << endl;
-    } else {
-        cerr << "Please specify either width or height" << endl;
-        return 1;
     }
 
     if (!vm.count("input-file")) {
