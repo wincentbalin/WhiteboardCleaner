@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.5)
 
-project(imagescaler LANGUAGES CXX)
+project(whiteboardcleaner LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -13,5 +13,5 @@ add_definitions( -DMAGICKCORE_HDRI_ENABLE=1 )
 find_package(ImageMagick COMPONENTS Magick++)
 include_directories(${ImageMagick_INCLUDE_DIRS})
 
-add_executable(imagescaler imagescaler.cpp)
-target_link_libraries(imagescaler LINK_PUBLIC ${Boost_LIBRARIES} ${ImageMagick_LIBRARIES})
+add_executable(whiteboardcleaner whiteboardcleaner.cpp)
+target_link_libraries(whiteboardcleaner LINK_PUBLIC ${Boost_LIBRARIES} ${ImageMagick_LIBRARIES})
