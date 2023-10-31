@@ -41,13 +41,6 @@ int main(int argc, char **argv)
     try {
         po::store(po::command_line_parser(argc, argv).
                   options(desc).positional(p).run(), vm);
-        if (strstr(argv[0], " -")) {
-#ifdef _WIN32
-            po::store(po::command_line_parser(po::split_winmain(argv[0])).options(desc).run(), vm);
-#else
-            po::store(po::command_line_parser(po::split_unix(argv[0], " ")).options(desc).run(), vm);
-#endif
-        }
     } catch (po::error &e) {
         cerr << e.what() << endl;
         return 1;
