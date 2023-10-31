@@ -20,7 +20,7 @@ void clean_whiteboard_in_image_file(const fs::path &src, const fs::path &dst) {
     image.normalize();
     image.blur(0.0, 1.0);
     image.channel(RGBChannels);
-    image.level(60, 91, 0.1);
+    image.level(0.60 * QuantumRange, 0.91 * QuantumRange, 0.1);
     image.write(dst.string());
 }
 
