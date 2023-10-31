@@ -1,44 +1,28 @@
-# ImageScaler
+# WhiteboardCleaner
 
-This is a small utility that proportionally scales images.
+A small utility that implements whiteboard cleaning algorithm from the gist https://gist.github.com/lelandbatey/8677901.
 
 # Usage
 
-List options by executing `imagescaler --help`. Use either `-w` or `-h` to scale files
-to the specified width or height.
+List options by executing `whiteboardcleaner --help`. There are not many.
 
-## Scale image file to width of 1024 px
-
-```
-imagescaler -w 1024 image.png
-```
-
-## Scale image file to height of 1024 px
+## Clean whiteboard image
 
 ```
-imagescaler -h 1024 image.png
+whiteboardcleaner image.png
 ```
 
-## Scale image files to width of 1024 px and store to output directory
+You also can use this utility by drag-and-dropping the images onto the executable.
 
-Previous commands saved scaled image files in-place. To save scaled files
+## Clean whiteboard images and store them to output directory
+
+Previous command saved cleaned image files in-place. To save cleaned files
 to output directory, specify that directory as the last file:
 
 ```
 mkdir out
-imagescaler -w 1024 image1.png image2.jpg out
+whiteboardcleaner image1.png image2.jpg out
 ```
-
-## Set default option
-
-Rename `imagescaler` to `imagescaler -w 1024` (in Windows to `imagescaler -w 1024 `
-with space character in the end) to scale image files to width of 1024 px. You can execute scaling by
-
-```
-imagescaler\ -w\ 1024 image1.png
-```
-
-You also enable execution by drag-and-drop through this.
 
 # Requirements
 
