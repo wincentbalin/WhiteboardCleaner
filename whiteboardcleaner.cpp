@@ -12,7 +12,7 @@ bool last_file_is_directory(const vector<string> &fns) {
     return fs::is_directory(fs::path(fns.back()));
 }
 
-void scale_image_file(const fs::path &src, const fs::path &dst, int width, int height) {
+void clean_whiteboard_in_image_file(const fs::path &src, const fs::path &dst) {
     Image image;
     image.read(src.string());
     image.morphology(ConvolveMorphology, DoGKernel, "15,100,0");
@@ -21,10 +21,6 @@ void scale_image_file(const fs::path &src, const fs::path &dst, int width, int h
     image.blur(0.0, 1.0);
     image.channel(RGBChannels);
     image.level(0.6, 0.91, 0.1);
-    Geometry size = image.size();
-    double factor = width ? (double) width / (double) size.width() :
-                            (double) height / (double) size.height();
-    image.zoom(Geometry(size.width() * factor, size.height() * factor));
     image.write(dst.string());
 }
 
@@ -95,12 +91,12 @@ int main(int argc, char **argv)
             for (auto &fn: regular_files) {
                 fs::path tfn = out_dir / fs::path(fn).filename();
                 cout << "Processing " << fn << " to " << tfn << endl;
-                scale_image_file(fs::path(fn), tfn, width, height);
+                clean_whiteboard_in_image_file(fs::path(fn), tfn);
             }
         } else {
             for (auto &fn: regular_files) {
                 cout << "Processing " << fn << endl;
-                scale_image_file(fs::path(fn), fs::path(fn), width, height);
+                clean_whiteboard_in_image_file(fs::path(fn), fs::path(fn));
             }
         }
     } catch (Magick::ErrorFileOpen &error) {
