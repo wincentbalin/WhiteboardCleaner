@@ -48,7 +48,7 @@ int main(int argc, char **argv)
     po::notify(vm);
 
     if (vm.count("help")) {
-        cout << "Usage: whiteboardcleaner option(s) file(s)" << endl;
+        cout << "Usage: whiteboardcleaner --help|file(s)" << endl;
         cout << desc;
         return 0;
     }
