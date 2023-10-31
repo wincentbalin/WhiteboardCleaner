@@ -15,6 +15,12 @@ bool last_file_is_directory(const vector<string> &fns) {
 void scale_image_file(const fs::path &src, const fs::path &dst, int width, int height) {
     Image image;
     image.read(src.string());
+    image.morphology(ConvolveMorphology, DoGKernel, "15,100,0");
+    image.negate();
+    image.normalize();
+    image.blur(0.0, 1.0);
+    image.channel(RGBChannels);
+    image.level(0.6, 0.91, 0.1);
     Geometry size = image.size();
     double factor = width ? (double) width / (double) size.width() :
                             (double) height / (double) size.height();
