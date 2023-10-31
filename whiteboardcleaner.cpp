@@ -20,7 +20,7 @@ void clean_whiteboard_in_image_file(const fs::path &src, const fs::path &dst) {
     image.normalize();
     image.blur(0.0, 1.0);
     image.channel(RGBChannels);
-    image.level(0.6, 0.91, 0.1);
+    image.level(60, 91, 0.1);
     image.write(dst.string());
 }
 
@@ -68,7 +68,7 @@ int main(int argc, char **argv)
             fs::path out_dir(input_files.back());
             for (auto &fn: regular_files) {
                 fs::path tfn = out_dir / fs::path(fn).filename();
-                cout << "Processing " << fn << " to " << tfn << endl;
+                cout << "Processing " << fn << " to " << tfn.string() << endl;
                 clean_whiteboard_in_image_file(fs::path(fn), tfn);
             }
         } else {
